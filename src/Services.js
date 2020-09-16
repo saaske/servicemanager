@@ -67,22 +67,29 @@ export default function Services() {
   const [error, setError] = useState("");
   useEffect(() => {
     let header = {
+      crossdomain: true,
       headers: {
         "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
       },
     };
     Axios.get(
       "https://sandbox.monkeycap.com/v1/management/servers",
       header
-    ).then((resp) => {
-      console.log("resp ", resp);
-      if (resp.status === 200) {
-        setServices(resp.data);
-        setError("");
-      } else {
-        setError("MangangeMent serv might be Down");
+    ).then(
+      (resp) => {
+        console.log("resp ", resp);
+        if (resp.status === 200) {
+          setServices(resp.data);
+          setError("");
+        } else {
+          setError("MangangeMent serv might be Down");
+        }
+      },
+      (reason) => {
+        console.log(reason);
       }
-    });
+    );
   }, []);
   return (
     <div>
